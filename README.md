@@ -34,7 +34,7 @@ Run magento installion commands
 
 #### Get all shops\filtered shops 
 
-```http
+```graphql
   query {
     Shops(
         currentPage: ${currentPage}
