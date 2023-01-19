@@ -74,7 +74,7 @@ ShopFilterInput schema
 
 #### Get shop by identifier
 
-```http
+```graphql
   query {
     Shop(
       identifier: ${identifier}
@@ -96,7 +96,7 @@ ShopFilterInput schema
 
 #### Get nearest shops based on location (Haversine equation) distance in Km
 
-```http
+```graphql
   query {
     nearestShops(
         currentPage: 1
@@ -122,7 +122,7 @@ ShopFilterInput schema
 ```
 #### Save new or update existing shop
 
-```
+```graphql
 mutation{
     saveShop(
         shop:{
@@ -156,3 +156,24 @@ mutation{
 | `country_id`      | `string` | **Required**. ISO2 code for country |
 | `latitude`      | `string` | **Optional**. Shop latitude |
 | `longitude`      | `string` | **Optional**. Shop Longitude |
+
+#### Delete shop by id or identifier
+
+```graphql
+mutation{
+    deleteShop(
+        filter:{
+            shop_id : ${shop_id}
+            identifier: ${identifier}
+        }
+    ){
+        message
+    }
+}
+```
+
+Only provide 1 filter parameter
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `shop_id`      | `int` | **RequiredIf**.  delete shop by shop id |
+| `identifier`      | `string` | **RequiredIf**. delete shop by identifier  |
