@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * module
+ *
+ * @copyright Copyright © 2023 Ushop Unilever. All rights reserved.
+ * @author    ahmed.allam@unilever.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Chalhoub_ShopfinderGraphQl" setup_version="1.0.0" >
+        <sequence>
+            <module name="Chalhoub_Shopfinder"/>
+        </sequence>
+    </module>
+</config>

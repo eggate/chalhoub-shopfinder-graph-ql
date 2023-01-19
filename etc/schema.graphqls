@@ -1,0 +1,66 @@
+type Query {
+    Shops(
+        input: ShopFilterInput @doc(description: "Defines the filter for returning matching shops.")
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default is 20.")
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default is 1."),
+    ): Shops! @resolver(class: "Chalhoub\\ShopfinderGraphQl\\Model\\Resolver\\Shops") @doc(description: "Return a list of shops.")
+    Shop(
+        identifier: String!  @doc(description: "The identifier of the shop.")
+    ): Shop! @resolver(class: "Chalhoub\\ShopfinderGraphQl\\Model\\Resolver\\ShopIdentifier") @doc(description: "Return a list of shops.")
+    nearestShops(
+        coords: CoordsInput @doc(description: "Defines the filter for returning matching shops.")
+        pageSize: Int = 20 @doc(description: "The maximum number of results to return at once. The default is 20.")
+        currentPage: Int = 1 @doc(description: "The page of results to return. The default is 1."),
+    ): Shops! @resolver(class: "Chalhoub\\ShopfinderGraphQl\\Model\\Resolver\\NearestShops") @doc(description: "Return a list of shops nearest to location.")
+}
+type Mutation {
+    saveShop(shop: CreateShopInput!): ShopResponse @doc(description: "create or update shop") @resolver(class:"Chalhoub\\ShopfinderGraphQl\\Model\\Resolver\\SaveShop")
+    deleteShop(filter: DeleteShopInput!): DeleteShopResponse @doc(description: "delete shop response") @resolver(class:"Chalhoub\\ShopfinderGraphQl\\Model\\Resolver\\DeleteShop")
+}
+type ShopResponse @doc(description: "Contains the results of a request to create a shop."){
+    shop: Shop @doc(description: "The newly-created shop.")
+}
+type DeleteShopResponse @doc(description: "Contains the results of a request to delete a shop."){
+    message: String @doc(description: "message.")
+}
+type Shop @doc(description: "Contains a single match.") {
+    UID: ID! @doc(description: "UID for shop id")
+    shop_id: Int! @doc(description: "shop id")
+    name: String! @doc(description: "The name of the shop.")
+    identifier: String! @doc(description: "The identifier of the shop.")
+    country_id: String! @doc(description: "The country of the shop.")
+    image: String! @doc(description: "The image of the shop.")
+    longitude: String @doc(description: "The longitude of the shop.")
+    latitude: String @doc(description: "The latitude of the shop.")
+}
+
+type Shops @doc(description: "Contains an array of shops.") {
+    items: [Shop]! @doc(description: "An array containing individual shop.")
+    page_info: SearchResultPageInfo @doc(description: "Metadata for pagination rendering.")
+    total_count: Int! @doc(description: "The number of returned dynamic blocks.")
+}
+
+input ShopFilterInput @doc(description: "Defines the shop filter. The filter can identify the shop by it's data.") {
+    shop_ids: [ID] @doc(description: "An array of shop ids.")
+    name: String @doc(description: "A string indicating shop name.")
+    country_id: String @doc(description: "A string indicating country code.")
+    identifier: String @doc(description: "A string indicating shop identifier.")
+}
+input CoordsInput @doc(description: "Defines the shop filter. The filter can identify the shop by it's data.") {
+   long: String! @doc(description: "longitude")
+   lat: String! @doc(description: "latitude")
+   radius: String @doc(description: "Radius")
+}
+input CreateShopInput @doc(description: "Defines a new shop."){
+   shop_id: Int @doc(description: "shop id")
+   name: String! @doc(description: "The name of the shop.")
+   identifier: String! @doc(description: "The identifier of the shop.")
+   country_id: String! @doc(description: "The country of the shop.")
+   image: String! @doc(description: "The image of the shop.")
+   longitude: String @doc(description: "The longitude of the shop.")
+   latitude: String @doc(description: "The latitude of the shop.")
+}
+input DeleteShopInput @doc(description: "Defines delete shop request."){
+   shop_id: Int @doc(description: "shop id")
+   identifier: String @doc(description: "The identifier of the shop.")
+}
